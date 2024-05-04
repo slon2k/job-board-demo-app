@@ -4,8 +4,13 @@ import { Label } from "./ui/label";
 import { Select } from "./ui/select";
 import { jobTypes } from "@/lib/job-types";
 import { Button } from "./ui/button";
-import { jobFilterSchema } from "@/schema/jobFilter";
+import { JobFilterValues, jobFilterSchema } from "@/schema/jobFilter";
 import { redirect } from "next/navigation";
+import { FC } from "react";
+
+interface IProps {
+  defaultValues: JobFilterValues 
+}
 
 const filterJobs = async (formData: FormData) => {
   "use server";
@@ -22,7 +27,7 @@ const filterJobs = async (formData: FormData) => {
   redirect(`/?${searchParams.toString()}`)
 };
 
-export const JobFilter = () => {
+export const JobFilter: FC<IProps> = ({defaultValues}) => {
   const jobs = getJobs();
   const locations = jobs
     .map(({ location }) => location)
@@ -37,11 +42,11 @@ export const JobFilter = () => {
         <div className="space-y-5">
           <div className="flex flex-col gap-2">
             <Label htmlFor="q">Search</Label>
-            <Input id="q" name="q" placeholder="Title, company, etc." />
+            <Input id="q" name="q" placeholder="Title, company, etc." defaultValue={defaultValues.q || ""}/>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="type">Type</Label>
-            <Select id="type" name="type" defaultValue="">
+            <Select id="type" name="type" defaultValue={defaultValues.type || ""}>
               <option value="">All types</option>
               {types.map((type) => (
                 <option value={type} key={type}>
@@ -52,7 +57,7 @@ export const JobFilter = () => {
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="location">Location</Label>
-            <Select id="location" name="location" defaultValue="">
+            <Select id="location" name="location" defaultValue={defaultValues.location || ""}>
               <option value="">All location</option>
               {distinctLocations.map((location) => (
                 <option value={location} key={location}>
@@ -67,6 +72,7 @@ export const JobFilter = () => {
               name="remote"
               type="checkbox"
               className="scale-125 accent-black"
+              defaultChecked={defaultValues.remote}
             />
             <Label htmlFor="remote">Remote jobs</Label>
           </div>
