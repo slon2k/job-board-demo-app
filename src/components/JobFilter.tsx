@@ -3,10 +3,10 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Select } from "./ui/select";
 import { jobTypes } from "@/lib/job-types";
-import { Button } from "./ui/button";
 import { JobFilterValues, jobFilterSchema } from "@/schema/jobFilter";
 import { redirect } from "next/navigation";
 import { FC } from "react";
+import { SubmitButton } from "./SubmitButton";
 
 interface IProps {
   defaultValues: JobFilterValues 
@@ -76,7 +76,7 @@ export const JobFilter: FC<IProps> = ({defaultValues}) => {
             />
             <Label htmlFor="remote">Remote jobs</Label>
           </div>
-          <Button className="w-full">Filter jobs</Button>
+          <SubmitButton className="w-full">Filter jobs</SubmitButton>
         </div>
       </form>
     </aside>
